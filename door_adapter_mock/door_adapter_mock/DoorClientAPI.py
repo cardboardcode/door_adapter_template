@@ -1,7 +1,7 @@
-import requests
-import urllib3
-import socket
 import time
+import socket
+import urllib3
+import requests
 from rmf_door_msgs.msg import DoorMode
 
 class DoorClientAPI:
@@ -12,6 +12,9 @@ class DoorClientAPI:
         self.connected = False
         self.node = node
         self.config = config  # use this config to establish connection
+
+        self.header = {"Content-Type": "application/json","Access-Control-Allow-Origin": "*" }
+        self.data = {}
 
         count = 0
         self.connected = True
@@ -37,7 +40,7 @@ class DoorClientAPI:
 
     def open_door(self, door_id):
         try:
-            response = requests.post(url=self.url+f"/door/remoteopen/{door_id}",headers=self.header, json=self.data, timeout=1.0)
+            response = requests.post(url=self.config["api_endpoint"]+f"/door/remoteopen/{door_id}",headers=self.header, json=self.data, timeout=1.0)
             if response:
                 result = response.json()["body"]
                 if (result.get("result") is not None):
@@ -54,7 +57,7 @@ class DoorClientAPI:
 
     def get_mode(self, door_id):
         try:
-            response = requests.post(url=self.url+f"/door/status/{door_id}", headers=self.header, json=self.data, timeout=1.0) 
+            response = requests.post(url=self.config["api_endpoint"]+f"/door/status", headers=self.header, json=self.data, timeout=1.0) 
             if response:
                 state = response.json().get("body").get("doorState")
                 if state is None:

@@ -49,6 +49,7 @@ class DoorAdapter(Node):
             # Keep track of doors
             self.doors = {}
             for door_id, door_data in config_yaml['doors'].items():
+                print(f"door_data = {door_data}")
                 self.doors[door_id] = Door(door_id,
                                            door_data['door_auto_closes'],
                                            door_data['door_signal_period'],
