@@ -6,7 +6,7 @@ import time
 import threading
 
 import rclpy
-from DoorClientAPI import DoorClientAPI
+from door_adapter_mock.DoorClientAPI import DoorClientAPI
 from rclpy.node import Node
 from rmf_door_msgs.msg import DoorRequest, DoorState, DoorMode
 
@@ -122,8 +122,8 @@ class DoorAdapter(Node):
         # command to API. When the adapter receives a close request, it will
         # stop sending the open command to API
         self.get_logger().info(
-            f"[{msg.door_name}] Door mode [{msg.requested_mode.value}] '
-            f'requested by {msg.requester_id}"
+            f"[{msg.door_name}] Door mode [{msg.requested_mode.value}] "
+            f"requested by {msg.requester_id}"
         )
         if msg.requested_mode.value == DoorMode.MODE_OPEN:
             # open door implementation

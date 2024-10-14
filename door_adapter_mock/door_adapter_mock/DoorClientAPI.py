@@ -28,7 +28,7 @@ class DoorClientAPI:
     def check_connection(self):
         # Test connectivity
         try:
-            res = requests.post(url=self.url+"/door/status", headers=self.header, json=self.data, timeout=1.0)
+            res = requests.post(url=self.config["api_endpoint"]+"/door/status", headers=self.header, json=self.data, timeout=1.0)
             res.raise_for_status()
             return True
         except (socket.gaierror, urllib3.exceptions.NewConnectionError, urllib3.exceptions.MaxRetryError, requests.exceptions.HTTPError ,requests.exceptions.ReadTimeout, requests.exceptions.ConnectionError) as e:
