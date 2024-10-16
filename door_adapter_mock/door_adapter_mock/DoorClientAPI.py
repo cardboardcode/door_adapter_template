@@ -57,14 +57,14 @@ class DoorClientAPI:
 
     def get_mode(self, door_id):
         try:
-            response = requests.post(url=self.config["api_endpoint"]+f"/door/status", headers=self.header, json=self.data, timeout=1.0) 
+            response = requests.post(url=self.config["api_endpoint"]+f"/door/status", headers=self.header, json=self.data, timeout=1.0)
             if response:
                 state = response.json().get("body").get("doorState")
                 if state is None:
                     return DoorMode.MODE_UNKNOWN
                 elif state == "closed":
                     return DoorMode.MODE_CLOSED
-                elif state == "betweenOpenandClosed ":
+                elif state == "betweenOpenandClosed":
                     return DoorMode.MODE_MOVING
                 elif state == "open":
                     return DoorMode.MODE_OPEN

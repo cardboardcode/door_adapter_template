@@ -79,8 +79,11 @@ class DoorAdapter(Node):
     def time_cb(self):
         if self.mock_adapter:
             return
-        for door_id, door_data in self.doors.items():
 
+        print(f"self.doors.items() = {self.doors.items()}")
+        
+
+        for door_id, door_data in self.doors.items():
             if door_data.check_status is not None:
                 # If continuous_status_polling is enabled, we will only update
                 # the door state when there is a door open request. If there is
@@ -101,6 +104,16 @@ class DoorAdapter(Node):
 
             # publish states of the door
             state_msg.door_name = door_id
+            if door_data.door_mode == DoorMode.MODE_OFFLINE:
+                self.get_logger().info(f"DoorState = DoorMode.MODE_OFFLINE")
+            elif door_data.door_mode == DoorMode.MODE_CLOSED:
+                self.get_logger().info(f"DoorState = DoorMode.MODE_CLOSED")
+            elif door_data.door_mode == DoorMode.MODE_MOVING:
+                self.get_logger().info(f"DoorState = DoorMode.MODE_MOVING")
+            elif door_data.door_mode == DoorMode.MODE_OPEN:
+                self.get_logger().info(f"DoorState = DoorMode.MODE_OPEN")
+            else:
+                self.get_logger().info(f"DoorState = DoorMode.MODE_UNKNOWN")
             state_msg.current_mode.value = door_data.door_mode
             self.door_states_pub.publish(state_msg)
 
