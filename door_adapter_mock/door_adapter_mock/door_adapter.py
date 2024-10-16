@@ -80,9 +80,6 @@ class DoorAdapter(Node):
         if self.mock_adapter:
             return
 
-        print(f"self.doors.items() = {self.doors.items()}")
-        
-
         for door_id, door_data in self.doors.items():
             if door_data.check_status is not None:
                 # If continuous_status_polling is enabled, we will only update

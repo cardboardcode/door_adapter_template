@@ -52,22 +52,28 @@ def main():
 
     @app.route('/door/remoteopen', methods=['POST'])
     def door_open_command():
-        data = {"statusCode": 200,"isBase64Encoded": False,"headers": {"Content-Type": "application/json","Access-Control-Allow-Origin": "*"  }, "body": {"result":"open command sent"}}
+        global curr_doorState
+        if curr_doorState == "open":
+            data = {"statusCode": 200,"isBase64Encoded": False,"headers": {"Content-Type": "application/json","Access-Control-Allow-Origin": "*"  }, "body": {"result":"Door already closed. Ignoring..."}}
+        else:
+            data = {"statusCode": 200,"isBase64Encoded": False,"headers": {"Content-Type": "application/json","Access-Control-Allow-Origin": "*"  }, "body": {"result":"open command sent"}}
 
-        t = threading.Thread(target=simulate_opening)
-        t.start()
+            t = threading.Thread(target=simulate_opening)
+            t.start()
 
-        # TODO(cardboardcode): Implement behaviour where doorState is updated to open for a few seconds before moving and then closed once again according to RMF DoorState enum.
         return jsonify(data)
     
     @app.route('/door/remoteclose', methods=['POST'])
     def door_close_command():
-        data = {"statusCode": 200,"isBase64Encoded": False,"headers": {"Content-Type": "application/json","Access-Control-Allow-Origin": "*"  }, "body": {"result":"close command sent"}}
+        global curr_doorState
+        if curr_doorState == "closed":
+            data = {"statusCode": 200,"isBase64Encoded": False,"headers": {"Content-Type": "application/json","Access-Control-Allow-Origin": "*"  }, "body": {"result":"Door already closed. Ignoring..."}}
+        else:
+            data = {"statusCode": 200,"isBase64Encoded": False,"headers": {"Content-Type": "application/json","Access-Control-Allow-Origin": "*"  }, "body": {"result":"close command sent"}}
 
-        t = threading.Thread(target=simulate_closing)
-        t.start()
+            t = threading.Thread(target=simulate_closing)
+            t.start()
 
-        # TODO(cardboardcode): Implement behaviour where doorState is updated to open for a few seconds before moving and then closed once again according to RMF DoorState enum.
         return jsonify(data)
 
 
