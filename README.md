@@ -98,11 +98,15 @@ cd $HOME
 ```
 
 ```bash
-
+git clone https://github.com/cardboardcode/door_adapter_template --branch feature/door_adapter_mock --depth 1 --single-branch
 ```
 
 ```bash
+cd door_adapter_template
+```
 
+```bash
+docker build -t door_adapter_mock:humble .
 ```
 
 ### **Run**
@@ -110,7 +114,13 @@ cd $HOME
 1\.. Run `door_adapter_mock`:
 
 ```bash
-
+docker run -it --rm \
+    --name door_adapter_mock_c \
+    --network host \
+    -v /dev/shm:/dev/shm \
+    -v ./door_adapter_mock/configs/config.yaml:/door_adapter_mock_ws/src/door_adapter_mock/configs/config.yaml \
+door_adapter_mock:humble /bin/bash -c \
+"source /ros_entrypoint.sh && ros2 launch door_adapter_mock run.launch.xml config_file:=/door_adapter_mock_ws/src/door_adapter_mock/configs/config.yaml"
 ```
 
 ### **Verify**
