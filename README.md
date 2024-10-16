@@ -14,7 +14,7 @@ A mock RMF Door Adapter that simulates the behaviour of a real door without the 
 5. [More Detail Reference](#more-detail-reference)
 
 
-## **System Requirements**
+## **Dependencies**
 
 The following software needs the below mentioned setup:
 * <a href="https://docs.ros.org/en/humble/Installation.html">ROS 2 Humble</a>
@@ -67,25 +67,6 @@ Below is the directory structure of the validation package, including the genera
         
            
 The sub file structure could be seen inside the packages.
-
-## **Usage**
-
-Certain Assumption is made for this door adapter template:
-- The communication protocol for door node to the physical door controller is through [REST](https://searchapparchitecture.techtarget.com/definition/RESTful-API) API
-- The expected response from API as below:
-    ![](doc/exampledoorAPI.png)
-- Assume API doesn't have close door API
-
-if the user's door condition is same as above, user can directly edit the parameter of `config.yaml` file as below:
-
-```yaml
-door:
-    name: "example_door1"                               # input the door name will display and called by rmf
-    api_endpoint: "https://door_endpoint_example/"      # API endpoint that would required to get from the API vendor/provider
-    header_key: "example_key"                           # depend of header key and value required by door API server
-    header_value: "example_header_value"                # depend of header key and value required by door API server
-    door_id: "example_door_id"                          # depend of header key and value required by door API server
-```
 
 ### **Build** :hammer:
 
