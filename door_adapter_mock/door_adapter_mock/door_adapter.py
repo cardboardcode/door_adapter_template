@@ -115,6 +115,7 @@ class DoorAdapter(Node):
             self.door_states_pub.publish(state_msg)
 
     def door_request_cb(self, msg: DoorRequest):
+        print(f"door_request_cb TRIGGERED... msg = {msg}")
         # Agree to every request automatically if this is a mock adapter
         if self.mock_adapter:
             state_msg = DoorState()
