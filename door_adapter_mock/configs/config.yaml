@@ -20,6 +20,6 @@ door_publisher:
   topic_name: "door_states"
   door_state_publish_period: 1.0 # Seconds
 
-api_endpoint: "http://127.0.0.1:8888/"
+api_endpoint: "http://127.0.0.1:8888"
 header_key: "example_key"
 header_value: "example_header_value"

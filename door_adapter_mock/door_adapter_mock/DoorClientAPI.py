@@ -31,16 +31,22 @@ class DoorClientAPI:
     def check_connection(self):
         # Test connectivity
         try:
-            res = requests.post(url=self.config["api_endpoint"]+"/door/status", headers=self.header, json=self.data, timeout=1.0)
+            res = requests.post(url=self.config["api_endpoint"]+"/system/ping", headers=self.header, json=self.data, timeout=1.0)
             res.raise_for_status()
-            return True
+            if res.status_code == 200:
+                return True
+            else:
+                return False
         except (socket.gaierror, urllib3.exceptions.NewConnectionError, urllib3.exceptions.MaxRetryError, requests.exceptions.HTTPError ,requests.exceptions.ReadTimeout, requests.exceptions.ConnectionError) as e:
             print(f"Connection Error: {e}")
             return False
 
     def open_door(self, door_id):
+
+        path = self.config["api_endpoint"]+f"/door/{door_id}/remoteopen"
+
         try:
-            response = requests.post(url=self.config["api_endpoint"]+f"/door/remoteopen/{door_id}",headers=self.header, json=self.data, timeout=1.0)
+            response = requests.post(url=path,headers=self.header, timeout=1.0)
             if response:
                 result = response.json()["body"]
                 if (result.get("result") is not None):
@@ -56,8 +62,11 @@ class DoorClientAPI:
             return False
 
     def get_mode(self, door_id):
+
+        path = self.config["api_endpoint"]+f"/door/{door_id}/status"
+
         try:
-            response = requests.post(url=self.config["api_endpoint"]+f"/door/status", headers=self.header, json=self.data, timeout=1.0)
+            response = requests.post(url=path, headers=self.header, timeout=1.0)
             if response:
                 state = response.json().get("body").get("doorState")
                 if state is None:
