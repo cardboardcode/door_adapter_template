@@ -1,6 +1,6 @@
 ## **What Is This?**
 
-A mock RMF Door Adapter.
+A mock RMF Door Adapter that simulates the behaviour of a real door without the need to rely on external vendor-specific APIs.
 
 ## **Table of Contents**
 
@@ -45,14 +45,14 @@ The overview flow could be seen below:
 
 ## **Package Overview**
 
-This is the general overview of the structure of this Library, and the listed files are described.
+This is the general overview of the structure of `door_adapter_mock` ROS 2 package, and the listed files are described.
 
 ### **Directory Structure**
 Below is the directory structure of the validation package, including the general function of certain scripts.
 
-    |--door_adapter_template
+    |--door_adapter_mock
         |-- doc                                 #document file
-        |-- door_adapter                        #source file of the rmf door node
+        |-- door_adapter_mock                        #source file of the rmf door node
             |-- __init__.py
             |-- door_adapter.py                 #door node direct commnuicate with RMF and doorclientAPI
             |-- DoorExampleClientAPI.py         # Example of Door Client Example in REST method, where user will need to modify according to the door REST API Server
