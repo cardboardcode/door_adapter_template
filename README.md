@@ -87,57 +87,37 @@ door:
     door_id: "example_door_id"                          # depend of header key and value required by door API server
 ```
 
-### **Build Instruction**
-1. Install all non-ROS dependencies of RMF packages
+### **Build** :hammer:
+
+Run the commands below to build `door_adapter_mock` in Docker:
+
+1\. Build `door_adapter_mock`:
+
 ```bash
-sudo apt update && sudo apt install \
-    git cmake python3-vcstool curl \
-    qt5-default \
-    ignition-edifice \
-    -y
-python3 -m pip install flask-socketio
-sudo apt-get install python3-colcon*
+cd $HOME
 ```
 
-2. Build RMF
 ```bash
-mkdir -p ~/rmf_ws/src
-cd ~/rmf_ws
-wget https://raw.githubusercontent.com/open-rmf/rmf/main/rmf.repos
-vcs import src < rmf.repos
-cd ~/rmf_ws
-rosdep install --from-paths src --ignore-src --rosdistro foxy -yr
-colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
+
 ```
 
-3. Build door_adapter
 ```bash
-cd ~
-git clone https://github.com/open-rmf/door_adapter_template.git
-mkdir -p ~/rmf_door_ws/src
-cp -r ~/door_adapter_template/example ~/rmf_door_ws/src
-source /opt/ros2/foxy/setup.bash
-source ~/rmf_ws/install/setup.bash
-cd ~/rmf_door_ws
-colcon build
+
 ```
 
-4. Usage
+### **Run**
 
-    a) Run Mock door Server
-    ```bash
-    cd ~/rmf_door_ws
-    python src/example/door_adapter/mock_door_server.py
-    ```
+1\.. Run `door_adapter_mock`:
 
-    b) Open another **terminal** and run
-    ```bash
-    cd ~/rmf_door_ws
-    source /opt/ros2/foxy/setup.bash
-    source ~/rmf_ws/install/setup.bash
-    source install/setup.bash
-    ros2 run door_adapter door_adapter -c src/example/config.yaml
-    ```
+```bash
+
+```
+
+### **Verify**
+
+```bash
+
+```
 
 
 ## **References**
