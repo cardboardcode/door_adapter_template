@@ -17,10 +17,9 @@ A mock RMF Door Adapter.
 ## System Requirements
 
 The following software needs the below mentioned setup:
-* <a href="https://docs.ros.org/en/foxy/Releases/Release-Foxy-Fitzroy.html">ROS 2 Foxy</a>
+* <a href="https://docs.ros.org/en/humble/Installation.html">ROS 2 Humble</a>
 * Robotics Middleware Framework (RMF) - <a href = "https://github.com/open-rmf/rmf"> RMF installation instruction</a>
 
-  
 
 ## General Working Principle
 
