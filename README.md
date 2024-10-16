@@ -2,7 +2,7 @@
 
 A mock RMF Door Adapter.
 
-## Table of Contents
+## **Table of Contents**
 
 1. [System Requirement](#system-requirements)
 2. [General Working Principle](#general-working-principle)
@@ -14,21 +14,21 @@ A mock RMF Door Adapter.
 5. [More Detail Reference](#more-detail-reference)
 
 
-## System Requirements
+## **System Requirements**
 
 The following software needs the below mentioned setup:
 * <a href="https://docs.ros.org/en/humble/Installation.html">ROS 2 Humble</a>
 * Robotics Middleware Framework (RMF) - <a href = "https://github.com/open-rmf/rmf"> RMF installation instruction</a>
 
 
-## General Working Principle
+## **General Working Principle**
 
 * The door adapter is in charge of publishing its state and receiving commands over ROS 2
 * The door adapter will keep publishing `/door_states` in 1 Hz
 * The door adapter will assume the door status is closed when there is not door_request to the door adapter from `/adapter_door_requests`
 * The door adapter will only being triggered to check door status and request door to open when it is being called by `/adapter_door_requests`
 
-### Published Topics
+### **Published Topics**
 
 The messages and topics used by rmf door adapter:
 
@@ -43,11 +43,11 @@ The overview flow could be seen below:
 ![](doc/RMF_DOOR_Adapter_Architecture.png)
 
 
-## Package Overview
+## **Package Overview**
 
 This is the general overview of the structure of this Library, and the listed files are described.
 
-### Directory Structure
+### **Directory Structure**
 Below is the directory structure of the validation package, including the general function of certain scripts.
 
     |--door_adapter_template
@@ -68,7 +68,7 @@ Below is the directory structure of the validation package, including the genera
            
 The sub file structure could be seen inside the packages.
 
-## Usage
+## **Usage**
 
 Certain Assumption is made for this door adapter template:
 - The communication protocol for door node to the physical door controller is through [REST](https://searchapparchitecture.techtarget.com/definition/RESTful-API) API
@@ -87,7 +87,7 @@ door:
     door_id: "example_door_id"                          # depend of header key and value required by door API server
 ```
 
-### Build Instruction
+### **Build Instruction**
 1. Install all non-ROS dependencies of RMF packages
 ```bash
 sudo apt update && sudo apt install \
@@ -140,7 +140,7 @@ colcon build
     ```
 
 
-## More detail reference
+## **References**
 
 - https://osrf.github.io/ros2multirobotbook/integration_doors.html
 - https://docs.python-requests.org/en/master/
