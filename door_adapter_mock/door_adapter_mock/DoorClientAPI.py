@@ -18,6 +18,7 @@ import urllib3
 import requests
 from rmf_door_msgs.msg import DoorMode
 
+
 class DoorClientAPI:
     def __init__(self, node, config):
         self.name = 'rmf_door_adapter'
@@ -27,7 +28,9 @@ class DoorClientAPI:
         self.node = node
         self.config = config  # use this config to establish connection
 
-        self.header = {"Content-Type": "application/json","Access-Control-Allow-Origin": "*" }
+        self.header = {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*"}
         self.data = {}
 
         count = 0
@@ -45,13 +48,24 @@ class DoorClientAPI:
     def check_connection(self):
         # Test connectivity
         try:
-            res = requests.post(url=self.config["api_endpoint"]+"/system/ping", headers=self.header, json=self.data, timeout=1.0)
+            res = requests.post(
+                url=self.config["api_endpoint"]+"/system/ping",
+                headers=self.header,
+                json=self.data,
+                timeout=1.0)
             res.raise_for_status()
             if res.status_code == 200:
                 return True
             else:
                 return False
-        except (socket.gaierror, urllib3.exceptions.NewConnectionError, urllib3.exceptions.MaxRetryError, requests.exceptions.HTTPError ,requests.exceptions.ReadTimeout, requests.exceptions.ConnectionError) as e:
+        except (
+            socket.gaierror,
+            urllib3.exceptions.NewConnectionError,
+            urllib3.exceptions.MaxRetryError,
+            requests.exceptions.HTTPError,
+            requests.exceptions.ReadTimeout,
+            requests.exceptions.ConnectionError
+        ) as e:
             print(f"Connection Error: {e}")
             return False
 
@@ -60,7 +74,10 @@ class DoorClientAPI:
         path = self.config["api_endpoint"]+f"/door/{door_id}/remoteopen"
 
         try:
-            response = requests.post(url=path,headers=self.header, timeout=1.0)
+            response = requests.post(
+                url=path,
+                headers=self.header,
+                timeout=1.0)
             if response:
                 result = response.json()["body"]
                 if (result.get("result") is not None):
@@ -71,7 +88,14 @@ class DoorClientAPI:
             else:
                 print("Invalid response received")
                 return False
-        except (socket.gaierror, urllib3.exceptions.NewConnectionError, urllib3.exceptions.MaxRetryError, requests.exceptions.HTTPError ,requests.exceptions.ReadTimeout, requests.exceptions.ConnectionError) as e:
+        except (
+            socket.gaierror,
+            urllib3.exceptions.NewConnectionError,
+            urllib3.exceptions.MaxRetryError,
+            requests.exceptions.HTTPError,
+            requests.exceptions.ReadTimeout,
+            requests.exceptions.ConnectionError
+        ) as e:
             print("Connection Error. "+str(e))
             return False
 
@@ -80,7 +104,10 @@ class DoorClientAPI:
         path = self.config["api_endpoint"]+f"/door/{door_id}/status"
 
         try:
-            response = requests.post(url=path, headers=self.header, timeout=1.0)
+            response = requests.post(
+                url=path,
+                headers=self.header,
+                timeout=1.0)
             if response:
                 state = response.json().get("body").get("doorState")
                 if state is None:
@@ -95,6 +122,13 @@ class DoorClientAPI:
                     return DoorMode.MODE_OFFLINE
             else:
                 return 4
-        except (socket.gaierror, urllib3.exceptions.NewConnectionError, urllib3.exceptions.MaxRetryError, requests.exceptions.HTTPError ,requests.exceptions.ReadTimeout, requests.exceptions.ConnectionError) as e:
+        except (
+            socket.gaierror,
+            urllib3.exceptions.NewConnectionError,
+            urllib3.exceptions.MaxRetryError,
+            requests.exceptions.HTTPError,
+            requests.exceptions.ReadTimeout,
+            requests.exceptions.ConnectionError
+        ) as e:
             print("Connection Error. "+str(e))
             return DoorMode.MODE_UNKNOWN

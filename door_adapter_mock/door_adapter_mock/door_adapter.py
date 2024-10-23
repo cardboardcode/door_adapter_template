@@ -42,8 +42,9 @@ class Door:
 
 ###############################################################################
 
+
 class DoorAdapter(Node):
-    def __init__(self,config_yaml):
+    def __init__(self, config_yaml):
         super().__init__('door_adapter')
         self.get_logger().info('Starting door adapter...')
 
@@ -81,7 +82,7 @@ class DoorAdapter(Node):
     def door_open_command_request(self, door_data: Door):
         # assume API doesn't have close door API
         # Once the door command is posted to the door API,
-        # the door will be opened and then close after 5 secs    
+        # the door will be opened and then close after 5 secs
         while door_data.open_door:
             success = self.api.open_door(door_data.id)
             if success:
@@ -116,20 +117,20 @@ class DoorAdapter(Node):
             # publish states of the door
             state_msg.door_name = door_id
             if door_data.door_mode == DoorMode.MODE_OFFLINE:
-                self.get_logger().info(f"DoorState = DoorMode.MODE_OFFLINE")
+                self.get_logger().info("DoorState = DoorMode.MODE_OFFLINE")
             elif door_data.door_mode == DoorMode.MODE_CLOSED:
-                self.get_logger().info(f"DoorState = DoorMode.MODE_CLOSED")
+                self.get_logger().info("DoorState = DoorMode.MODE_CLOSED")
             elif door_data.door_mode == DoorMode.MODE_MOVING:
-                self.get_logger().info(f"DoorState = DoorMode.MODE_MOVING")
+                self.get_logger().info("DoorState = DoorMode.MODE_MOVING")
             elif door_data.door_mode == DoorMode.MODE_OPEN:
-                self.get_logger().info(f"DoorState = DoorMode.MODE_OPEN")
+                self.get_logger().info("DoorState = DoorMode.MODE_OPEN")
             else:
-                self.get_logger().info(f"DoorState = DoorMode.MODE_UNKNOWN")
+                self.get_logger().info("DoorState = DoorMode.MODE_UNKNOWN")
             state_msg.current_mode.value = door_data.door_mode
             self.door_states_pub.publish(state_msg)
 
     def door_request_cb(self, msg: DoorRequest):
-        print(f"door_request_cb TRIGGERED... msg = {msg}")
+        self.get_logger().info(f"door_request_cb TRIGGERED... msg = {msg}")
         # Agree to every request automatically if this is a mock adapter
         if self.mock_adapter:
             state_msg = DoorState()
@@ -174,6 +175,7 @@ class DoorAdapter(Node):
             self.get_logger().error('Invalid door mode requested. Ignoring...')
 
 ###############################################################################
+
 
 def main(argv=sys.argv):
     rclpy.init(args=argv)

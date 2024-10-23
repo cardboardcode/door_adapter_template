@@ -16,11 +16,12 @@ import time
 import yaml
 import flask
 import threading
-from flask import request, jsonify
+from flask import jsonify
 
 # TODO(cardboardcode): Create Door class that mimicks behaviour of real doors.
 curr_doorState = "closed"
 door_obj_array = []
+
 
 class Door():
     def __init__(
@@ -35,9 +36,12 @@ class Door():
         self.door_signal_period = door_signal_period
         self.curr_doorState = curr_doorState
 
+
 def load_config(file_path):
     """
-    Load the YAML configuration file.
+
+        Load the YAML configuration file.
+
     :param file_path: Path to the YAML file
     :return: Parsed YAML data as a dictionary
     """
@@ -48,6 +52,7 @@ def load_config(file_path):
     except Exception as e:
         print(f"Error loading config file: {e}")
         return None
+
 
 def main():
     app = flask.Flask(__name__)
@@ -63,7 +68,12 @@ def main():
         door_auto_closes = doors[door_id]['door_auto_closes']
         continuous_status_polling = doors[door_id]['continuous_status_polling']
         door_signal_period = doors[door_id]['door_signal_period']
-        door_obj = Door(door_name=door_id, door_auto_closes=door_auto_closes, continuous_status_polling=continuous_status_polling, door_signal_period=door_signal_period)
+        door_obj = Door(
+            door_name=door_id,
+            door_auto_closes=door_auto_closes,
+            continuous_status_polling=continuous_status_polling,
+            door_signal_period=door_signal_period
+        )
         door_obj_array.append(door_obj)
 
     for door_obj in door_obj_array:
@@ -78,7 +88,7 @@ def main():
             if door_obj.door_name == door_id:
                 sel_door_obj = door_obj
                 break
-        
+
         if sel_door_obj is None:
             print(f"[ERROR] - Unable to find door_obj: {door_id}. Ignoring...")
             print(f"Available door_objs: {door_obj_array}")
@@ -102,7 +112,7 @@ def main():
             if door_obj.door_name == door_id:
                 sel_door_obj = door_obj
                 break
-        
+
         if sel_door_obj is None:
             print(f"[ERROR] - Unable to find door_obj: {door_id}. Ignoring...")
             print(f"Available door_objs: {door_obj_array}")
@@ -116,7 +126,14 @@ def main():
 
     @app.route('/system/ping', methods=['POST'])
     def connection_status():
-        data = {"statusCode": 200,"isBase64Encoded": False,"headers": {"Content-Type": "application/json","Access-Control-Allow-Origin": "*"  }, "body": {"isSuccess": True}}
+        data = {
+            "statusCode": 200,
+            "isBase64Encoded": False,
+            "headers": {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"
+                },
+            "body": {"isSuccess": True}}
         return jsonify(data)
 
     @app.route('/door/<door_id>/status', methods=['POST'])
@@ -128,43 +145,79 @@ def main():
             if door_obj.door_name == door_id:
                 curr_doorState = door_obj.curr_doorState
                 break
-        
+
         if curr_doorState is None:
-            print(f"[ERROR] - Unable to find door_obj: {door_id}. Setting default OFFLINE...")
+            print("[ERROR] - Unable to find door_obj:"
+                  f" {door_id}. Setting default OFFLINE...")
             print(f"Available door_objs: {door_obj_array}")
             curr_doorState = "OFFLINE"
 
-        data = {"statusCode": 200,"isBase64Encoded": False,"headers": {"Content-Type": "application/json","Access-Control-Allow-Origin": "*"  }, "body": {"doorState": curr_doorState}}
+        data = {
+            "statusCode": 200,
+            "isBase64Encoded": False,
+            "headers": {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"
+                },
+            "body": {"doorState": curr_doorState}}
         return jsonify(data)
 
     @app.route('/door/<door_id>/remoteopen', methods=['POST'])
     def door_open_command(door_id):
         global curr_doorState
         if curr_doorState == "open":
-            data = {"statusCode": 200,"isBase64Encoded": False,"headers": {"Content-Type": "application/json","Access-Control-Allow-Origin": "*"  }, "body": {"result":"Door already closed. Ignoring..."}}
+            data = {
+                "statusCode": 200,
+                "isBase64Encoded": False,
+                "headers": {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*"
+                    },
+                "body": {"result": "Door already closed. Ignoring..."}}
         else:
-            data = {"statusCode": 200,"isBase64Encoded": False,"headers": {"Content-Type": "application/json","Access-Control-Allow-Origin": "*"  }, "body": {"result":"open command sent"}}
+            data = {
+                "statusCode": 200,
+                "isBase64Encoded": False,
+                "headers": {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*"
+                    },
+                "body": {"result": "open command sent"}}
 
             t = threading.Thread(target=simulate_opening, args=[door_id])
             t.start()
 
         return jsonify(data)
-    
+
     @app.route('/door/<door_id>/remoteclose', methods=['POST'])
     def door_close_command(door_id):
         global curr_doorState
         if curr_doorState == "closed":
-            data = {"statusCode": 200,"isBase64Encoded": False,"headers": {"Content-Type": "application/json","Access-Control-Allow-Origin": "*"  }, "body": {"result":"Door already closed. Ignoring..."}}
+            data = {
+                "statusCode": 200,
+                "isBase64Encoded": False,
+                "headers": {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*"
+                    },
+                "body": {"result": "Door already closed. Ignoring..."}}
         else:
-            data = {"statusCode": 200,"isBase64Encoded": False,"headers": {"Content-Type": "application/json","Access-Control-Allow-Origin": "*"  }, "body": {"result":"close command sent"}}
+            data = {
+                "statusCode": 200,
+                "isBase64Encoded": False,
+                "headers": {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*"
+                    },
+                "body": {"result": "close command sent"}}
 
             t = threading.Thread(target=simulate_closing)
             t.start()
 
         return jsonify(data)
 
-
     app.run(port=8888)
 
+
 if __name__ == '__main__':
-    main()    
+    main()
