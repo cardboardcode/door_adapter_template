@@ -1,3 +1,7 @@
+[![build](https://github.com/cardboardcode/door_adapter_template/actions/workflows/industrial_ci_action.yml/badge.svg)](https://github.com/cardboardcode/door_adapter_template/actions/workflows/industrial_ci_action.yml)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+![Ubuntu](https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)
+
 ## **What Is This?**
 
 A mock RMF Door Adapter that simulates the behaviour of a real door without the need to rely on external vendor-specific APIs.
