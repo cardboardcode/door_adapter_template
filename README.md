@@ -110,7 +110,31 @@ door_adapter_mock:humble /bin/bash -c \
 
 ### **Verify**
 
+Upon running the command above, you should see an output similar to what is shown below:
+
 ```bash
+[INFO] [launch]: All log files can be found below /root/.ros/log/2024-10-23-12-28-14-574052-rosi-0-1
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [mock_door_server-1]: process started with pid [59]
+[INFO] [door_adapter_mock_node-2]: process started with pid [61]
+[mock_door_server-1] [door_obj_array] door_id = door_1
+[mock_door_server-1] [door_obj_array] door_id = door_2
+[mock_door_server-1]  * Serving Flask app 'door_adapter_mock.mock_door_server'
+[mock_door_server-1]  * Debug mode: on
+[mock_door_server-1] WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+[mock_door_server-1]  * Running on http://127.0.0.1:8888
+[mock_door_server-1] Press CTRL+C to quit
+[mock_door_server-1]  * Restarting with stat
+[door_adapter_mock_node-2] [INFO] [1729686494.992788679] [door_adapter]: Starting door adapter...
+[mock_door_server-1]  * Debugger is active!
+[mock_door_server-1]  * Debugger PIN: 556-308-017
+[mock_door_server-1] 127.0.0.1 - - [23/Oct/2024 12:28:15] "POST /system/ping HTTP/1.1" 200 -
+[mock_door_server-1] 127.0.0.1 - - [23/Oct/2024 12:28:16] "POST /door/door_1/status HTTP/1.1" 200 -
+[door_adapter_mock_node-2] [INFO] [1729686496.143892656] [door_adapter]: DoorState = DoorMode.MODE_CLOSED
+[mock_door_server-1] 127.0.0.1 - - [23/Oct/2024 12:28:16] "POST /door/door_2/status HTTP/1.1" 200 -
+[door_adapter_mock_node-2] [INFO] [1729686496.146284578] [door_adapter]: DoorState = DoorMode.MODE_CLOSED
+[mock_door_server-1] 127.0.0.1 - - [23/Oct/2024 12:28:17] "POST /door/door_1/status HTTP/1.1" 200 -
+[door_adapter_mock_node-2] [INFO] [1729686497.144141635] [door_adapter]: DoorState = DoorMode.MODE_CLOSED
 
 ```
 
