@@ -2,13 +2,13 @@ FROM ros:humble-ros-base
 
 # Install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
+        ros-humble-rmf-door-msgs \
         python3-pip && \
         pip3 install flask-socketio websockets websocket-client requests && \
     rm -rf /var/lib/apt/lists/*
 
 # Clone the repository
 WORKDIR /door_adapter_mock_ws/src
-RUN git clone https://github.com/open-rmf/rmf_internal_msgs.git --branch main --single-branch --depth 1
 COPY ./door_adapter_mock door_adapter_mock/
 
 # Setup the workspace
